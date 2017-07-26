@@ -47,8 +47,8 @@ print(Y_test.shape)
 
 network = DeepConvNet()
 trainer = Trainer(network, X_train, Y_train, X_test, Y_test,
-                  epochs=20, mini_batch_size=50,
-                  optimizer='Momentum', optimizer_param={'lr':0.001},
+                  epochs=50, mini_batch_size=50,
+                  optimizer='AdaGrad', optimizer_param={'lr':0.001},
                   evaluate_sample_num_per_epoch=1000)
 trainer.train()
 

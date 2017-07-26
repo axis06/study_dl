@@ -17,18 +17,18 @@ class DeepConvNet:
         affine - relu - dropout - affine - dropout - softmax
     """
     def __init__(self, input_dim=(3, 32, 32),
-                 conv_param_1 = {'filter_num':16, 'filter_size':3, 'pad':1, 'stride':1},
-                 conv_param_2 = {'filter_num':16, 'filter_size':3, 'pad':1, 'stride':1},
-                 conv_param_3 = {'filter_num':32, 'filter_size':3, 'pad':1, 'stride':1},
-                 conv_param_4 = {'filter_num':32, 'filter_size':3, 'pad':2, 'stride':1},
-                 conv_param_5 = {'filter_num':64, 'filter_size':3, 'pad':1, 'stride':1},
-                 conv_param_6 = {'filter_num':64, 'filter_size':3, 'pad':1, 'stride':1},
+                 conv_param_1 = {'filter_num':8, 'filter_size':5, 'pad':1, 'stride':1},
+                 conv_param_2 = {'filter_num':8, 'filter_size':5, 'pad':1, 'stride':1},
+                 conv_param_3 = {'filter_num':16, 'filter_size':5, 'pad':1, 'stride':1},
+                 conv_param_4 = {'filter_num':16, 'filter_size':5, 'pad':2, 'stride':1},
+                 conv_param_5 = {'filter_num':32, 'filter_size':5, 'pad':1, 'stride':1},
+                 conv_param_6 = {'filter_num':32, 'filter_size':5, 'pad':1, 'stride':1},
                  hidden_size=50, output_size=10):
         # 重みの初期化===========
         # 各層のニューロンひとつあたりが、前層のニューロンといくつのつながりがあるか（TODO:自動で計算する）
-        pre_node_nums = np.array([1*3*3, 16*3*3, 16*3*3, 32*3*3, 32*3*3, 64*3*3, 64*4*4, hidden_size])
+        pre_node_nums = np.array([1*5*5, 8*5*5, 8*5*5, 16*5*5, 16*5*5,32*5*5, 32*6*6, hidden_size])
         wight_init_scales = np.sqrt(2.0 / pre_node_nums)  # ReLUを使う場合に推奨される初期値
-        
+
         self.params = {}
         pre_channel_num = input_dim[0]
         for idx, conv_param in enumerate([conv_param_1, conv_param_2, conv_param_3, conv_param_4, conv_param_5, conv_param_6]):
@@ -42,14 +42,14 @@ class DeepConvNet:
 
         # レイヤの生成===========
         self.layers = []
-        self.layers.append(Convolution(self.params['W1'], self.params['b1'], 
+        self.layers.append(Convolution(self.params['W1'], self.params['b1'],
                            conv_param_1['stride'], conv_param_1['pad']))
         self.layers.append(Relu())
-        self.layers.append(Convolution(self.params['W2'], self.params['b2'], 
+        self.layers.append(Convolution(self.params['W2'], self.params['b2'],
                            conv_param_2['stride'], conv_param_2['pad']))
         self.layers.append(Relu())
         self.layers.append(Pooling(pool_h=2, pool_w=2, stride=2))
-        self.layers.append(Convolution(self.params['W3'], self.params['b3'], 
+        self.layers.append(Convolution(self.params['W3'], self.params['b3'],
                            conv_param_3['stride'], conv_param_3['pad']))
         self.layers.append(Relu())
         self.layers.append(Convolution(self.params['W4'], self.params['b4'],
@@ -68,7 +68,7 @@ class DeepConvNet:
         self.layers.append(Dropout(0.5))
         self.layers.append(Affine(self.params['W8'], self.params['b8']))
         self.layers.append(Dropout(0.5))
-        
+
         self.last_layer = SoftmaxWithLoss()
 
     def predict(self, x, train_flg=False):
