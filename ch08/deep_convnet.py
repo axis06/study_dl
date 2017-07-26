@@ -26,7 +26,7 @@ class DeepConvNet:
                  hidden_size=50, output_size=10):
         # 重みの初期化===========
         # 各層のニューロンひとつあたりが、前層のニューロンといくつのつながりがあるか（TODO:自動で計算する）
-        pre_node_nums = np.array([1*5*5, 8*5*5, 8*5*5, 16*5*5, 16*5*5,32*5*5, 32*6*6, hidden_size])
+        pre_node_nums = np.array([1*3*3, 8*5*5, 8*5*5, 16*5*5, 16*5*5,32*5*5, 32*6*6, hidden_size])
         wight_init_scales = np.sqrt(2.0 / pre_node_nums)  # ReLUを使う場合に推奨される初期値
 
         self.params = {}
