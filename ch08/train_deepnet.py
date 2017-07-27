@@ -18,14 +18,12 @@ def unpickle(file):
     return dict
 
 
-print(unpickle("data_batch_2")[b'data'].shape)
-print(len(unpickle("data_batch_2")[b'labels']))
 
 labels = [0 for i in range(10)]
 
 y = []
 
-for idx,num in enumerate(unpickle("data_batch_2")[b'labels']):
+for idx,num in enumerate(unpickle("cifar10_mini_train")[b'labels']):
     labels = [0 for i in range(10)]
 
     labels[num] = 1
@@ -33,7 +31,7 @@ for idx,num in enumerate(unpickle("data_batch_2")[b'labels']):
 
 
 Y = np.array(y)
-X = unpickle("data_batch_2")[b'data']
+X = unpickle("cifar10_mini_train")[b'data']
 
 X = X.reshape(-1,3,32,32)
 
@@ -47,8 +45,8 @@ print(Y_test.shape)
 
 network = DeepConvNet()
 trainer = Trainer(network, X_train, Y_train, X_test, Y_test,
-                  epochs=50, mini_batch_size=100,
-                  optimizer='Momentum', optimizer_param={'lr':0.001},
+                  epochs=20, mini_batch_size=100,
+                  optimizer='Adam', optimizer_param={'lr':0.001},
                   evaluate_sample_num_per_epoch=1000)
 trainer.train()
 
