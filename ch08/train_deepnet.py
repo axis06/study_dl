@@ -6,16 +6,15 @@ import matplotlib.pyplot as plt
 from dataset.mnist import load_mnist
 from deep_convnet import DeepConvNet
 from common.trainer import Trainer
-
+import pickle
 
 from sklearn.cross_validation import train_test_split
 
 
-def unpickle(file):
-    import pickle
-    with open(file, 'rb') as fo:
-        dict = pickle.load(fo, encoding='bytes')
-    return dict
+with open("cifar10_mini_train", "rb") as f:
+    f = pickle.load(f)
+    train_data = f["data"]
+    train_label = f["labels"]
 
 
 
@@ -23,7 +22,7 @@ labels = [0 for i in range(10)]
 
 y = []
 
-for idx,num in enumerate(unpickle("cifar10_mini_train")[b'labels']):
+for idx,num in enumerate(train_label):
     labels = [0 for i in range(10)]
 
     labels[num] = 1
@@ -31,7 +30,7 @@ for idx,num in enumerate(unpickle("cifar10_mini_train")[b'labels']):
 
 
 Y = np.array(y)
-X = unpickle("cifar10_mini_train")[b'data']
+X = train_data
 
 X = X.reshape(-1,3,32,32)
 
