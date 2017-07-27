@@ -32,7 +32,7 @@ for idx,num in enumerate(train_label):
 Y = np.array(y)
 X = train_data
 
-X = X.reshape(-1,3,32,32)
+#X = X.reshape(-1,3,32,32)
 
 
 X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size = 0.1, random_state = 5)
